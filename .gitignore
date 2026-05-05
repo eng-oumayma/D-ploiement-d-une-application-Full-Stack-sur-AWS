@@ -1,0 +1,54 @@
+# ======================
+# ENVIRONNEMENT
+# ======================
+.env
+.env.*
+env/
+venv/
+
+# Python
+__pycache__/
+*.pyc
+
+# ======================
+# NODE (frontend + backend)
+# ======================
+node_modules/
+client/node_modules/
+backend/node_modules/
+
+# Build
+dist/
+build/
+
+# ======================
+# LOGS
+# ======================
+*.log
+coverage/
+
+# ======================
+# IDE
+# ======================
+.vscode/
+.idea/
+
+# ======================
+# SYSTEM
+# ======================
+.DS_Store
+Thumbs.db
+
+# ======================
+# TERRAFORM
+# ======================
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+
+# ======================
+# AUTRES
+# ======================
+*.exe
+*.dll
