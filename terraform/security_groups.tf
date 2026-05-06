@@ -50,13 +50,13 @@ resource "aws_security_group" "alb" {
 # ⚠️ Jamais depuis internet directement !
 resource "aws_security_group" "backend" {
   name        = "${var.project_name}-sg-backend"
-  description = "Backend EC2 : trafic entrant uniquement depuis le SG de l'ALB"
+  description = "Backend EC2 : trafic entrant uniquement depuis le SG de ALB"
   vpc_id      = aws_vpc.main.id
 
-  # Accepte uniquement les connexions venant du Security Group de l'ALB
+  # Accepte uniquement les connexions venant du Security Group de ALB
   # (pas depuis 0.0.0.0/0 — même si le port est le bon !)
   ingress {
-    description     = "Trafic API depuis l'ALB"
+    description     = "Trafic API depuis ALB"
     from_port       = var.app_port
     to_port         = var.app_port
     protocol        = "tcp"

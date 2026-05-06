@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import { environment } from '../../environments/environment.prod';
 
 export interface User {
   id?: number;
@@ -9,11 +10,10 @@ export interface User {
   created_at?: string;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class UserService {
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = environment.apiUrl + '/api/users';
+
 
   constructor(private http: HttpClient) { }
 

@@ -78,6 +78,7 @@ resource "aws_launch_template" "backend" {
   instance_type = var.instance_type
   key_name      = aws_key_pair.deployer.key_name
 
+
   vpc_security_group_ids = [aws_security_group.backend.id]
 
   # Le script User Data est injecté avec les variables (db_host, db_pass, etc.)
