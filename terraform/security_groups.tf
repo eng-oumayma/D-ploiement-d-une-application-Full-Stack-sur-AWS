@@ -63,6 +63,25 @@ resource "aws_security_group" "backend" {
     security_groups = [aws_security_group.alb.id]  # ← référence au SG ALB
   }
 
+  ingress {
+    description     = "SSH depuis frontend"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = [aws_security_group.frontend.id]
+  }
+
+  ingress {
+    description = "SSH admin direct"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = [var.my_ip]
+  }
+
+
+  
+
   # Sortie libre pour git clone, npm install, etc.
   egress {
     from_port   = 0

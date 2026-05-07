@@ -40,8 +40,13 @@
 # # pm2 startup && pm2 save
 
 
+
+
+
+
 #!/bin/bash
 exec > /var/log/user-data.log 2>&1
+
 
 # Supprimer conflits Node.js
 apt-get remove -y nodejs libnode72 nodejs-doc || true
@@ -50,8 +55,8 @@ apt-get autoremove -y || true
 apt-get update -y
 apt-get install -y git curl
 
-# Installer Node.js 18
-curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+# Installer Node.js 20 (sans conflit)
+curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
 apt-get install -y nodejs
 
 echo ">>> Node: $(node -v) | NPM: $(npm -v)"
@@ -71,21 +76,26 @@ PORT=${app_port}
 EOF
 
 echo ">>> .env créé"
+cat .env
 
 # Installer dépendances
 npm install
 
-# Installer PM2 et démarrer
+# Installer PM2 globalement et démarrer
 npm install -g pm2
+
 pm2 start index.js --name backend
-pm2 startup systemd -u ubuntu --hp /home/ubuntu
+pm2 startup systemd -u ubuntu --hp /home/ubuntu | tail -1 | bash
 pm2 save
 
 echo ">>> PM2 status:"
 pm2 status
 
-echo ">>> Test local:"
 sleep 3
-curl -s http://localhost:${app_port}/health || echo "WARN: /health ne répond pas"
+echo ">>> Test /health:"
+curl -s http://localhost:${app_port}/health || echo "ERREUR: backend ne repond pas"
+
+echo ">>> Test /api/users:"
+curl -s http://localhost:${app_port}/api/users || echo "ERREUR: /api/users ne repond pas"
 
 echo ">>> DONE backend déployé ✅"
